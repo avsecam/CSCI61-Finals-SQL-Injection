@@ -56,6 +56,13 @@
 			border: none;
 			border-radius: 0.3rem;
 			text-transform: uppercase;
+			cursor: pointer;
+			transition: 0.2s;
+		}
+
+		input[type="submit"]:hover {
+			background-color: hsla(0 0% 95% / 100%);
+			box-shadow: inset 0 0 1rem hsla(0 0% 50% / 25%);
 		}
 	</style>
 
