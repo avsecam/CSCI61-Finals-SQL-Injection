@@ -1,7 +1,6 @@
 <?php
 require('functions.php');
 session_start();
-$conn = connect();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -92,9 +91,10 @@ $conn = connect();
 		$username = $_POST['username'];
 		$password = $_POST['password'];
 
-		$hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+		$hashedPassword = password_hash($password, PASSWORD_DEFAULT, 'samplestring');
 
 		$sql = "SELECT * FROM users WHERE username = '" . $username . "' AND password = '". $hashedPassword . "';";
+		echo $sql;
 		$res = mysqli_query($conn, $sql);
 
 		if (mysqli_num_rows($res) > 0 ){
@@ -108,14 +108,14 @@ $conn = connect();
 			echo $_SESSION['username'];
 			header("refresh:2; url=account.php");
 		}
-		else if (mysqli_num_rows($res) == 0){
+		else if (mysqli_num_rows($res) == 0){;
 			echo "Invalid username or password.";
 		}
 		else{
 			echo "Error: " . mysqli_error($conn) . "</br>";
 		}
+		closeConn($conn);
 	}
-	closeConn($conn);
 ?>
 </body>
 </html>

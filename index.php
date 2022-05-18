@@ -97,7 +97,7 @@ require('functions.php');
 		$firstname = $_POST['firstName'];
 		$lastname = $_POST['lastName'];
 
-		$hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+		$hashedPassword = password_hash($password, PASSWORD_DEFAULT, 'samplestring');
 
 		$sql = "INSERT INTO users (username, password, firstname, lastname, email) VALUES
 		('" . $username . "','" . $hashedPassword . "','" . $firstname . "','" . $lastname . "','" . $email . "');";
@@ -109,8 +109,8 @@ require('functions.php');
 		else{
 			echo "Error: " . mysqli_error($conn);
 		}
+		closeConn($conn);
 	}
-	closeConn($conn);
 ?>
 
 </body>
