@@ -1,5 +1,7 @@
 <?php
 require('functions.php');
+session_start();
+$conn = connect();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -75,43 +77,45 @@ require('functions.php');
 <body>
 	
 	<main>
-		<h1>Create an Account</h1>
+		<h1>Login to your Account</h1>
 		<!-- add action to form -->
 		<form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
 			<div class="username">Username<input type="text" name="username"></div>
-			<div class="email">Email Address<input type="email" name="email"></div>
 			<div class="password">Password<input type="password" name="password"></div>
-			<div class="firstName">First Name<input type="text" name="firstName"></div>
-			<div class="lastName">Last Name<input type="text" name="lastName"></div>
-			<input type="submit" value="Register" >
+			<input type="submit" value="Login" >
 		</form>
 	</main>
 
-<?php
+<?php 
 	if ($_SERVER["REQUEST_METHOD"] == "POST"){
-		
 		$conn = connect();
 		$username = $_POST['username'];
-		$email = $_POST['email'];
 		$password = $_POST['password'];
-		$firstname = $_POST['firstName'];
-		$lastname = $_POST['lastName'];
 
 		$hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-		$sql = "INSERT INTO users (username, password, firstname, lastname, email) VALUES
-		('" . $username . "','" . $hashedPassword . "','" . $firstname . "','" . $lastname . "','" . $email . "');";
+		$sql = "SELECT * FROM users WHERE username = '" . $username . "' AND password = '". $hashedPassword . "';";
+		$res = mysqli_query($conn, $sql);
 
-		if (mysqli_query($conn, $sql)){
-			echo "New record added!";
-			header("refresh:2; url=login.php");
+		if (mysqli_num_rows($res) > 0 ){
+			echo "<br/>Logging in...";
+			$user = mysqli_fetch_assoc($res);
+			$_SESSION['username'] = $user['username'];
+			$_SESSION['email'] = $user['email'];
+			$_SESSION['firstname'] = $user['firstname'];
+			$_SESSION['lastname'] = $user['lastname'];
+
+			echo $_SESSION['username'];
+			header("refresh:2; url=account.php");
+		}
+		else if (mysqli_num_rows($res) == 0){
+			echo "Invalid username or password.";
 		}
 		else{
-			echo "Error: " . mysqli_error($conn);
+			echo "Error: " . mysqli_error($conn) . "</br>";
 		}
 	}
 	closeConn($conn);
 ?>
-
 </body>
 </html>

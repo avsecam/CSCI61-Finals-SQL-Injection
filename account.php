@@ -1,3 +1,12 @@
+<?php
+
+session_start();
+$firstname = $_SESSION['firstname'];
+$lastname = $_SESSION['lastname'];
+$email = $_SESSION['email'];
+$username = $_SESSION['username'];
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -41,11 +50,11 @@
 </head>
 <body>
 	<main>
-		<h1>Good day, <?php echo $_POST["firstName"]; ?></h1>
+		<h1>Good day, <?php echo $firstname; ?></h1>
 		<div class="userInfo">
-			<h2 class="username">Username: <?php echo $_POST["username"]; ?></h2>
-			<h2 class="email">Email Address: <?php echo $_POST["email"]; ?></h2>
-			<h2 class="fullName">Full Name: <?php echo "{$_POST['firstName']} {$_POST['lastName']}"; ?></h2>
+			<h2 class="username">Username: <?php echo $username; ?></h2>
+			<h2 class="email">Email Address: <?php echo $email; ?></h2>
+			<h2 class="fullName">Full Name: <?php echo "{$firstname} {$lastname}"; ?></h2>
 		</div>
 	</main>
 </body>
