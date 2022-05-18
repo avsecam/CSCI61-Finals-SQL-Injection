@@ -87,6 +87,7 @@ $conn = connect();
 	</main>
 
 <?php 
+
 	if ($_SERVER["REQUEST_METHOD"] == "POST"){
 		$conn = connect();
 		$username = $_POST['username'];
