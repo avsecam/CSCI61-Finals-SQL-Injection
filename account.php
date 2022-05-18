@@ -96,32 +96,27 @@ $username = $_SESSION['username'];
 				<th>Username</th>
 				<th>Full Name</th>
 			</tr>
-			<tr class="user">
-				<td>Pressing Kick</td>
-				<td>Marshall Law</td>
-			</tr>
+			<?php
+				if ($_SERVER["REQUEST_METHOD"] == "GET"){
+				
+					$conn = connect();
+					$username = $_GET['query'];
+			
+					$sql = "SELECT * FROM users WHERE username = '$username';";
+					if ($result = mysqli_query($conn, $sql)) {
+						while ($row = $result->fetch_array()) {
+							echo '<tr class="user">';
+							echo "<td>" . $row['username'] . "</td><td>" . $row['firstname'] . " " . $row['lastname'] . "</td>";
+							echo "</tr>";
+						}
+					}
+					else{
+						echo "Error: " . mysqli_error($conn);
+					}
+					closeConn($conn);
+				}
+			?>
 		</table>
 	</section>
-
-
-	<?php
-		if ($_SERVER["REQUEST_METHOD"] == "GET"){
-		
-			$conn = connect();
-			$username = $_GET['query'];
-	
-			$sql = "SELECT * FROM users WHERE username = '$username';";
-			if ($result = mysqli_query($conn, $sql)) {
-				while ($row = $result->fetch_array()) {
-					echo $row['Username'] . " " . $row['firstname'];
-					echo "<br>";
-				}
-			}
-			else{
-				echo "Error: " . mysqli_error($conn);
-			}
-		}
-		closeConn($conn);
-	?>
 </body>
 </html>
