@@ -86,6 +86,7 @@ session_start();
 	</main>
 
 <?php 
+
 	if ($_SERVER["REQUEST_METHOD"] == "POST"){
 		$conn = connect();
 		$username = $_POST['username'];
